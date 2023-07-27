@@ -21,28 +21,29 @@
 </nav>
 
 <div class="form">
-<form method="POST">
+<form method="post">
         <label for="username">Username</label>
         <input type="text" name="username" id="username">
+
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email">
         
         <label for="wachtwoord">Password</label>
         <input type="password" name="wachtwoord" id="wachtwoord">
+
+        <label for="wachtwoordCheck">confirm password</label>
+        <input type="password" name="wachtwoordCheck" id="wachtwoordCheck">
 <div class="buttonContainer">
 <input type="submit" name="submit_login" id="submit_login" value="Login">
 <input type="submit" name="register" id="register" value="Register">
-</div>
 </form>
 
 <?php
 
-if (isset($_POST["register"])) {
-    header("location: register.php");
+if (isset($_POST["submit_login"])) {
+    header("location: login.php");
 }
 
 ?>
-
-    
-    
-
 </body>
 </html>
