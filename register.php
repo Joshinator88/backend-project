@@ -1,3 +1,14 @@
+<?php
+
+try {
+    $pdo =  new PDO("mysql:host=localhost;dbname=chats", "bit_academy", "bit_academy");
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    echo "Connection failed " . $e->getMessage();
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,20 +25,58 @@
     </div>
     <!-- <img src="logo.png" alt="logo van chats"> -->
     <ul>
-        <li><a href="">Home</a></li>
-        <li><a href="">Login</a></li>
-        <li><a href="">Register</a></li>
+    <li><a href="home.php">Home</a></li>
+        <li><a href="login.php">Login</a></li>
+        <li><a href="register.php">Register</a></li>
     </ul>
 </nav>
 
+
 <div class="form">
 <form method="post">
+<?php
+if (isset($_POST["register"])) {
+    if ($_POST["username"] == "") {
+        ?>
+        <p style="color: red;">Please enter a username</p>
+        <?php
+    } else if ($_POST["email"] == "") {
+        ?>
+        <p style="color: red;">Please enter an email</p>
+        <?php
+    } else if ($_POST["wachtwoord"] == "") {
+        ?>
+        <p style="color: red;">Please enter a password</p>
+        <?php
+    } else {
+        // everything is filed in and thanks to html we know the email is filled in correctly
+        // now we have to check if the two passwords are the same 
+        if($_POST["wachtwoord"] == $_POST["wachtwoordCheck"]) {
+            // we can register the new user to the database
+            $sql = "INSERT users SET email=?, naam=?, wachtwoord=?";
+            $stmt = $pdo->prepare($sql); 
+            $stmt->execute([$_POST["email"], $_POST["username"], $_POST["wachtwoord"]]);
+        }
+    }
+} else if (isset($_POST["submit_login"])) {
+    header("location: login.php");
+}
+
+?>
         <label for="username">Username</label>
         <input type="text" name="username" id="username">
 
         <label for="email">Email</label>
         <input type="email" name="email" id="email">
-        
+        <?php
+        if(isset($_POST["register"])){
+            if ($_POST["wachtwoord"] !== $_POST["wachtwoordCheck"]){
+                ?>
+                <p style="color: red;">Your passwords are not the same</p>
+                <?php
+                }                
+        }
+        ?>
         <label for="wachtwoord">Password</label>
         <input type="password" name="wachtwoord" id="wachtwoord">
 
@@ -38,12 +87,6 @@
 <input type="submit" name="register" id="register" value="Register">
 </form>
 
-<?php
 
-if (isset($_POST["submit_login"])) {
-    header("location: login.php");
-}
-
-?>
 </body>
 </html>
