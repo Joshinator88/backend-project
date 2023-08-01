@@ -31,6 +31,7 @@ try {
     <li><a href="home.php">Home</a></li>
         <li><a href="login.php">Login</a></li>
         <li><a href="register.php">Register</a></li>
+        <li><a href="search.php">Search</a></li>
         <li><a href="logout.php">Logout</a></li>
     </ul>
 </nav>
@@ -112,7 +113,6 @@ if (isset($_POST['submit'])) {
     if ($gesprekObjects !== false){
         foreach($gesprekObjects as $gesprekObject) {
             // echo $gesprekObject['bericht'];
-            // TODO print de berichten in deze loop, zorg dat ze een apparte kleur krijgen wanneer ze van de loggedinuser zijn en dat ze in een apparte duv staan
             if ($gesprekObject["ontvangerID"] == $contactID && $gesprekObject["verzenderID"] == $userID) {
                     $bericht = $gesprekObject['bericht'];
                     echo "<div class='send'>$bericht</div>";

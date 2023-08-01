@@ -1,0 +1,10 @@
+TODO 
+let people only send messages to eachother when they have befriended eachother
+this can be done to make a db friends with the columns: friendOneID, friendTwoID and a PrimaryKey
+when the friend has accepted your friend request than you can see them in your contacts list.
+
+the contact list needs to be changed so that it calls for all ids on the same rows as you on the friends TABLE
+and then ask for the names of those id's in the users table;
+
+
+
