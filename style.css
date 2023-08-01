@@ -3,6 +3,9 @@
     margin: 0;
     box-sizing: border-box;
 }
+html {
+    overflow: hidden;
+}
 
 form {
     display: flex;
@@ -91,4 +94,58 @@ input[type="submit"] {
     margin: 0;
     padding: 0;
     border: none;
+}
+
+.contactContainer {
+    width: 30%;
+    height: 100vh;
+    background-color: #F7EEF8;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+.contactNames {
+    padding: 3px 200px 3px 15px
+    
+}
+
+.chatContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.chatInput {
+    display: flex;
+    width: 100%;
+    flex-direction: row; 
+    margin-top: 20px;
+}
+.chatInput input[type='text'] {
+    width: 88%;
+}
+
+.send {
+    background-color: #422230;
+    color: #F7EEF8;
+    width: fit-content;
+    padding: 6px;
+    border-radius: 6px;
+    text-align: right;
+    max-width: 80%;
+    align-self: flex-end;
+    margin: 5px 10px;
+}
+
+.recieved {
+    background-color: #F7EEF8;
+    color: #422230;
+    width: fit-content;
+    padding: 6px;
+    border-radius: 6px;
+    max-width: 80%;
+    margin: 5px 10px;
 }

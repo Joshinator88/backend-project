@@ -26,11 +26,10 @@ try {
     <div class="logo">
         <img src="logoSmall.png" alt="logo">
     </div>
-    <!-- <img src="logo.png" alt="logo van chats"> -->
     <ul>
         <li><a href="home.php">Home</a></li>
         <li><a href="login.php">Login</a></li>
-        <li><a href="register.php">Register</a></li>
+        <li><a href="register.php">Register</a></li>    
     </ul>
 </nav>
 
@@ -45,7 +44,6 @@ if(isset($_POST["submit_login"])) {
     $stmt->execute([$_POST["username"], $_POST["wachtwoord"]]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // echo $user["ID"];
     
     if ($user !== false) {
         $_SESSION["loggedInUser"] = $user['ID'];

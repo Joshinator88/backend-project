@@ -52,10 +52,23 @@ if (isset($_POST["register"])) {
         // everything is filed in and thanks to html we know the email is filled in correctly
         // now we have to check if the two passwords are the same 
         if($_POST["wachtwoord"] == $_POST["wachtwoordCheck"]) {
-            // we can register the new user to the database
-            $sql = "INSERT users SET email=?, naam=?, wachtwoord=?";
-            $stmt = $pdo->prepare($sql); 
-            $stmt->execute([$_POST["email"], $_POST["username"], $_POST["wachtwoord"]]);
+            // check if username exists...
+            $usernameCheckQuery = "SELECT * FROM users WHERE naam=?";
+            $usernameCheckStmt = $pdo->prepare($usernameCheckQuery);
+            $usernameCheckStmt->execute([$_POST["username"]]);
+            $userExists = $usernameCheckStmt->fetch(PDO::FETCH_ASSOC);
+            if ($userExists !== false) {
+                // we can register the new user to the database
+                ?>
+        <p style="color: red;">A user with this username already exists, to login press the login button</p>
+        <?php
+                // if the user already exists we throw this message
+            } else {
+                $sql = "INSERT users SET email=?, naam=?, wachtwoord=?";
+                $stmt = $pdo->prepare($sql); 
+                $stmt->execute([$_POST["email"], $_POST["username"], $_POST["wachtwoord"]]);
+                
+            }
         }
     }
 } else if (isset($_POST["submit_login"])) {
