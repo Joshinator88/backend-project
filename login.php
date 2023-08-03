@@ -32,6 +32,7 @@ try {
         <li><a href="register.php">Register</a></li>
         <li><a href="search.php">Search</a></li>
         <li><a href="logout.php">Logout</a></li>
+        <li><a href="requests.php">Requests</a></li>
     </ul>
 </nav>
 

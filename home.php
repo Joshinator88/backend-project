@@ -26,13 +26,13 @@ try {
     <div class="logo">
         <img src="logoSmall.png" alt="logo">
     </div>
-    <!-- <img src="logo.png" alt="logo van chats"> -->
     <ul>
     <li><a href="home.php">Home</a></li>
         <li><a href="login.php">Login</a></li>
         <li><a href="register.php">Register</a></li>
         <li><a href="search.php">Search</a></li>
         <li><a href="logout.php">Logout</a></li>
+        <li><a href="requests.php">Requests</a></li>
     </ul>
 </nav>
 
@@ -46,17 +46,22 @@ $userID = $_SESSION["loggedInUser"];
 
 
 
-$sendMessages = $pdo->query("SELECT * FROM berichten WHERE verzenderID=$userID");
-$recievedMessages = $pdo->query("SELECT * FROM berichten WHERE ontvangerID=$userID");
+$friendsOne = $pdo->query("SELECT * FROM vrienden WHERE vriendOneID=$userID");
+$friendsTwo = $pdo->query("SELECT * FROM vrienden WHERE vriendTwoID=$userID");
 
 $contactsRaw = [];
+if ($friendsOne !== false) {
+    foreach ($friendsOne as $friend) {
+        array_push($contactsRaw, $friend["vriendTwoID"]);
+    }
+}
 
-foreach ($sendMessages as $sendMessage) {
-    array_push($contactsRaw, $sendMessage["ontvangerID"]);
+if ($friendsTwo !== false) {
+    foreach ($friendsTwo as $friend) {
+        array_push($contactsRaw, $friend["vriendOneID"]);
+    }
 }
-foreach ($recievedMessages as $recievedMessage) {
-    array_push($contactsRaw, $sendMessage["verzenderID"]);
-}
+
 
 // this array contains all users who had messaging contact with the user
 $contactsID = array_unique($contactsRaw);
@@ -64,8 +69,7 @@ $contactsID = array_unique($contactsRaw);
 // we get the contact name by looping over every unique item in the contacts array,
 foreach ($contactsID as $contactID) {
 
-    // ToDO: 
-    // We want to create a div for every contact so that it gets shown in te contacts container
+    //  create a li for every contact so that it gets shown in te contacts container
     
     $usersql = "SELECT * FROM users WHERE ID=?";
     $userstmt = $pdo->prepare($usersql);

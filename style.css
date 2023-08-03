@@ -21,7 +21,7 @@ nav {
     justify-content: space-between;
     background-color: #F7EEF8;
 }
-nav ul {
+nav ul, .foundFriend ul {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -49,13 +49,16 @@ a {
     border-radius: 5px;
 }
 
+.foundFriend a {
+    padding: 15px 40px;
+}
+
 li:hover a{
     cursor: pointer;
     background-color: #422230;
     color: #F7EEF8;
 }
 .form {
-    /* background-color: black; */
     margin: 50px 0;
     padding: 50px;
 }
@@ -149,3 +152,22 @@ input[type="submit"] {
     max-width: 80%;
     margin: 5px 10px;
 }
+
+.foundFriend form, p {
+    padding: 0;
+    margin: 0;
+}
+
+.foundFriend {
+    display: flex;
+    width: fit-content;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #F7EEF8;
+    border-radius: 5px;
+    margin: 10px auto;
+    padding: 5px;
+    min-width: 60%; 
+    
+}
+

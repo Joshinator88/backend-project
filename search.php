@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-if(isset($_SESSION['loggedInUser'])) {
+if(!isset($_SESSION['loggedInUser'])) {
         header("location: login.php");
         die();
 }
@@ -13,6 +13,12 @@ try {
     echo "connection failed " . $e->getMessage();
 }
 
+if(isset($_GET['add']) && $_GET['add'] !== $_SESSION['loggedInUser']) {
+    $askOfFriendshipQuery = "INSERT friendRequests SET requestorID=?, recieverID=?";
+    $askOfFriendshipStmt = $pdo->prepare($askOfFriendshipQuery); 
+    $askOfFriendshipStmt->execute([$_SESSION["loggedInUser"], $_GET['add']]);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +26,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link href="style.css" media="screen" rel="stylesheet" type="text/css" />
     <title>Document</title>
 </head>
 <body>
@@ -34,6 +40,7 @@ try {
         <li><a href="register.php">Register</a></li>
         <li><a href="search.php">Search</a></li>
         <li><a href="logout.php">Logout</a></li>
+        <li><a href="requests.php">Requests</a></li>
     </ul>
 </nav>
 
@@ -45,9 +52,10 @@ if (isset($_GET["search"])) {
     $searchStmt->execute([$_GET["search"], $_GET["search"]]);
     $found = $searchStmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($found == false) {
-        echo "<p style='color: red;'>de combinatie gebruikersnaam en wachtwoord zijn onjuist, probeer het nog eens</p>";
-    }
+    if ($found == false || $found['ID'] == $_SESSION["loggedInUser"]) {
+        echo "<p style='color: red;'>er bestaat geen gebruiker met deze gebruikersnaam</p>";
+}
+}
 
     ?>
     <input type="text" name="search" id="search" placeholder="username or email">
@@ -56,17 +64,29 @@ if (isset($_GET["search"])) {
 
 <?php
 
+if (isset($_GET["search"])) {
+
     if($found !== false) {
         ?>
 
-<div class="foundUserDiv">
+<div class="foundFriend">
     <!-- display user en a possibility to add as a friend -->
+    <?php 
+    
+    $naam = $found['naam'];
+    $id = $found['ID'];
+
+    echo "<p>$naam</p>
+    <ul>
+    <li><a href='search.php?add=$id'>Add</a></li>
+    </ul>";
+    
+    ?>
 </div>
 
         <?php
     }
 }
-
 ?>
     
 </body>
