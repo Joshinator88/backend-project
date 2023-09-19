@@ -29,8 +29,10 @@ require_once "database.php";
     </ul>
 </nav>
 
-
 <div class="form">
+
+<!-- action naar ander bestand sturen en afhandelen in andere pagina. -->
+
 <form method="post">
 <?php
 if (isset($_POST["register"])) {
